@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@theme {
+    --color-custom-moss-green: rgb(8, 96, 51);
+    --color-custom-light-green: rgb(212, 248, 222);
+}

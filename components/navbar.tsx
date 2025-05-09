@@ -2,10 +2,10 @@ import Image from "next/image";
 
 const Navbar = () => {
     return (
-        <div className="w-full h-20 bg-white shadow-md">
-            <div className="flex items-center justify-between h-full px-48">
+        <div className="w-full h-24 bg-white shadow-md px-4 sm:px-8 md:px-16 lg:px-24 xl:px-48">
+            <div className="flex items-center justify-between h-full">
                 <div className="flex items-center">
-                    <div className="relative w-16 h-16">
+                    <div className="relative w-20 h-20">
                         <Image
                             src="/images/logo.jpg"
                             alt="logo"
@@ -13,16 +13,16 @@ const Navbar = () => {
                             className="object-contain"
                         />
                     </div>
-                    <h1 className="ml-4 text-base font-bold">ClimateScope</h1>
+                    <h1 className="text-xl font-bold">ClimateScope</h1>
                 </div>
                 <div className="flex gap-12 items-center">
-                    <a href="/explore" className="hover:text-gray-600">
+                    <a href="/explore" className="hover:text-gray-600 text-lg">
                         Explore
                     </a>
-                    <a href="/about" className="hover:text-gray-600">
+                    <a href="/about" className="hover:text-gray-600 text-lg">
                         About
                     </a>
-                    <a href="/sources" className="hover:text-gray-600">
+                    <a href="/sources" className="hover:text-gray-600 text-lg">
                         Sources
                     </a>
                 </div>
