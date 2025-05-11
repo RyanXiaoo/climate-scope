@@ -22,7 +22,7 @@ export default function Home() {
                     Get insights into your city's climate and how it's changing
                     over time.
                 </p>
-                <a href="/explore">
+                <a href="/login">
                     <button className="bg-white text-black font-bold w-32 px-2 py-2 rounded-md hover:bg-custom-light-green hover:cursor-pointer truncate">
                         Get Started
                     </button>
