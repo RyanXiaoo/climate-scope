@@ -6,7 +6,9 @@ export interface IUser extends Document {
     name: string;
     email: string;
     password: string;
+    reports?: mongoose.Schema.Types.ObjectId[]; // Array of Report ObjectIds
     createdAt: Date;
+    updatedAt?: Date;
     // Add any other fields you anticipate here, e.g.:
     // emailVerified?: boolean;
     // resetPasswordToken?: string;
@@ -18,45 +20,52 @@ export interface IUser extends Document {
 }
 
 // Mongoose Schema Definition
-const UserSchema: Schema<IUser> = new Schema({
-    name: {
-        type: String,
-        required: [true, "Please provide your name"],
-        trim: true,
+const UserSchema: Schema<IUser> = new Schema(
+    {
+        name: {
+            type: String,
+            required: [true, "Please provide your name"],
+            trim: true,
+        },
+        email: {
+            type: String,
+            required: [true, "Please provide your email address"],
+            unique: true, // Ensures email addresses are unique in the collection
+            lowercase: true, // Converts email to lowercase before saving
+            trim: true,
+            match: [
+                // Basic email validation regex
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                "Please provide a valid email address",
+            ],
+        },
+        password: {
+            type: String,
+            required: [true, "Please provide a password"],
+            minlength: [8, "Password must be at least 8 characters long"],
+            select: false, // By default, password field will not be returned in queries
+        },
+        reports: [{ type: Schema.Types.ObjectId, ref: "Report" }], // References to Report documents
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        updatedAt: {
+            type: Date,
+        },
+        // emailVerified: {
+        //     type: Boolean,
+        //     default: false,
+        // },
+        // resetPasswordToken: String,
+        // resetPasswordExpires: Date,
+        // apiData: {
+        //     type: Schema.Types.Mixed, // Or define a more specific schema if known
+        //     default: {},
+        // },
     },
-    email: {
-        type: String,
-        required: [true, "Please provide your email address"],
-        unique: true, // Ensures email addresses are unique in the collection
-        lowercase: true, // Converts email to lowercase before saving
-        trim: true,
-        match: [
-            // Basic email validation regex
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Please provide a valid email address",
-        ],
-    },
-    password: {
-        type: String,
-        required: [true, "Please provide a password"],
-        minlength: [8, "Password must be at least 8 characters long"],
-        select: false, // By default, password field will not be returned in queries
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    // emailVerified: {
-    //     type: Boolean,
-    //     default: false,
-    // },
-    // resetPasswordToken: String,
-    // resetPasswordExpires: Date,
-    // apiData: {
-    //     type: Schema.Types.Mixed, // Or define a more specific schema if known
-    //     default: {},
-    // },
-});
+    { timestamps: true }
+); // Automatically add createdAt and updatedAt
 
 // Pre-save middleware to hash password before saving
 // Important: Must use a regular function here, not an arrow function, to preserve `this` context

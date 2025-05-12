@@ -40,7 +40,7 @@ const Navbar = () => {
                                 href="/data"
                                 className="hover:text-gray-600 text-base sm:text-lg"
                             >
-                                Data
+                                Reports
                             </Link>
                             <button
                                 onClick={() => signOut()}
